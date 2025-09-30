@@ -1,8 +1,6 @@
 let boxImg;          
 let prizeImgs = []; 
 let grid = [];       
-let rows = 3;
-let cols = 3;
 let w = 156;
 let h = 169;
 let foundSpecial = false;
@@ -16,17 +14,7 @@ function preload() {
 
 function setup() {
   createCanvas(700, 700);
-
-  for (let x = 50; x <= width - 180; x += 220) {
-    for (let y = 100; y <= 500; y += 190) {
-      grid.push({
-        x: x,
-        y: y,
-        cover: true, 
-        prize: random(prizeImgs) 
-      });
-    }
-  }
+  resetGame();
 }
 
 function draw() {
@@ -35,16 +23,15 @@ function draw() {
   textSize(28);
   textAlign(CENTER);
   fill(50);
-  text("Choose and open your Blind Boxes", width/2, 40);
+  text("Choose and open your Blind Boxes", width/2-50, 40);
 
-  for (let cell of grid) {
-    if (cell.cover) {
-      image(boxImg, cell.x, cell.y, w, h); 
-    } else {
-      image(cell.prize, cell.x, cell.y, w, h); 
-    }
-  }
-  
+  //reset button
+  fill(0, 136, 204);
+  rect(width - 120, 20, 100, 40, 10);
+  fill(255);
+  textSize(20);
+  text("RESET", width - 70, 47);
+
   for (let cell of grid) {
     if (cell.cover) {
       image(boxImg, cell.x, cell.y, w, h); 
@@ -59,12 +46,30 @@ function draw() {
   if (foundSpecial) {
     fill(200, 0, 0);
     textSize(32);
-    text("You found the SPECIAL one!", width/2, 80);
+    text("You found the SPECIAL one!", width/2-50, 80);
   }
+}
 
+function resetGame() {
+  grid = [];
+  let shufflePrizes = shuffle(prizeImgs); 
+  let i = 0;
+  for (let x = 50; x <= width - 180; x += 220) {
+    for (let y = 100; y <= 500; y += 190) {
+      grid.push({
+        x: x,
+        y: y,
+        cover: true, 
+        prize: shufflePrizes[i] 
+      });
+      i++;
+    }
+  }
+  foundSpecial = false;
 }
 
 function mousePressed() {
+  // check boxes
   for (let cell of grid) {
     if (
       mouseX > cell.x && mouseX < cell.x + w &&
@@ -72,5 +77,12 @@ function mousePressed() {
     ) {
       cell.cover = false;
     }
+  }
+
+  if (
+    mouseX > width - 120 && mouseX < width - 20 &&
+    mouseY > 20 && mouseY < 60
+  ) {
+    resetGame();
   }
 }
