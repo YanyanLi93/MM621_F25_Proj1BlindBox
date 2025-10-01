@@ -25,7 +25,7 @@ function draw() {
   fill(50);
   text("Choose and open your Blind Boxes", width/2-50, 40);
 
-  //reset button
+  // reset button
   fill(0, 136, 204);
   rect(width - 120, 20, 100, 40, 10);
   fill(255);
@@ -52,17 +52,15 @@ function draw() {
 
 function resetGame() {
   grid = [];
-  let shufflePrizes = shuffle(prizeImgs); 
-  let i = 0;
   for (let x = 50; x <= width - 180; x += 220) {
     for (let y = 100; y <= 500; y += 190) {
+      let randomPrize = random(prizeImgs); 
       grid.push({
         x: x,
         y: y,
         cover: true, 
-        prize: shufflePrizes[i] 
+        prize: randomPrize 
       });
-      i++;
     }
   }
   foundSpecial = false;
