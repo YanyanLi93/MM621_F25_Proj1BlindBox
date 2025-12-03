@@ -13,7 +13,8 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(700, 700);
+  let canvas = createCanvas(700, 700);     
+  canvas.position((windowWidth - width) / 2, 40); 
   resetGame();
 }
 
@@ -84,3 +85,4 @@ function mousePressed() {
     resetGame();
   }
 }
+
